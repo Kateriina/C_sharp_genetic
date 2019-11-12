@@ -36,11 +36,16 @@ namespace genetic_algorithm
             X = new List<int>();
         }
 
+        public Chromosomes(List<int> list)
+        {
+            this.X = list;
+        }
+
         public void Mutation()      // metod mutacii
         {
             double probability = _rnd.NextDouble();
 
-            if (probability > 0.01)
+            if (probability > 0.99)
             {
                 return;
             }
