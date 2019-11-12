@@ -6,42 +6,22 @@ using System.Threading.Tasks;
 
 namespace genetic_algorithm
 {
-    class GenerationKeeper
+    public class GenerationKeeper
     {
         private static Random _rnd = new Random();
 
-        public Chromosomes Crossingover(Chromosomes x, Chromosomes y)
+        //vozvrashaet potomkov list
+        public List<Chromosomes> Crossingover(Chromosomes x, Chromosomes y)
         {
-           
-            int index = _rnd.Next(8);
+            //ya hochu vernut dve hromosomi - odna hrom x0y1, vtoraya y0x1
 
-            Chromosomes z = new Chromosomes(0);
+            Chromosomes x0y1 = new Chromosomes(x.X.GetRange(0, 4).Concat(y.X.GetRange(4, 4)).ToList());
 
+            Chromosomes y0x1 = new Chromosomes(y.X.GetRange(0, 4).Concat(x.X.GetRange(4, 4)).ToList());
 
-             for (int n = 0; n < index; n++ )
-             {
-                 z[n] = x[n];
-
-             }
-
-             for (int n = (y.ToString().Length) / 2; n < y.ToString().Length); n++)
-             {
-                 z[n] = x[n];
-             }
-
-
-            return z;
+            return new List<Chromosomes>(){ x0y1, y0x1};
         }
-
-        public void GetGens(int min, int max, Chromosomes x, Chromosomes z)
-        {
-            for (int n = min; n < max; n++)
-            {
-                z[n] = x[n];
-            }
-            
-        }
-
+        
 
     }
 }
