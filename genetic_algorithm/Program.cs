@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace genetic_algorithm
 {
-    class cv
+    /*class cv
     {
         public static int binary(string a)
         {
@@ -19,7 +19,7 @@ namespace genetic_algorithm
         }
 
      
-    }
+    }*/
 
     class Program
     {
@@ -27,22 +27,46 @@ namespace genetic_algorithm
         {
             //Console.WriteLine(cv.binary("101010")); //trenirovka perevoda iz sistemi v sistemu schisleniya
 
-            Chromosomes chroms = new Chromosomes(10);
+            Chromosomes mother = new Chromosomes(10);
 
-            Console.WriteLine(chroms.ToString());   //proverka, kak rabotaet zapis v spisok
+            Chromosomes father = new Chromosomes(200);
 
-            Console.WriteLine(chroms.Value);    //vivod desyatichnogo chisla
+            Console.WriteLine($"mother: {mother}");
+            Console.WriteLine($"father: {father}");
+            Console.WriteLine("\n");
 
-            //mutaciya 10 genov
-             for (int n = 0; n <= 10; n++)
-             {
-                 chroms.Mutation();
-                 Console.WriteLine(chroms.ToString());
-             }
-             
+            // Console.WriteLine(mother.ToString());   //proverka, kak rabotaet zapis v spisok
+
+            //  Console.WriteLine(mother.Value);    //vivod desyatichnogo chisla
+
+            //mutaciya genov
+
+            for (int n = 0; n <= 1; n++)
+            {
+                mother.Mutation();
+                Console.WriteLine($"{n} mutation mother:{mother}\n");
+
+                father.Mutation();
+                Console.WriteLine($"{n} mutation father:{father}\n");
+            }
+
+            for (int n = 0; n < 1; n++)
+            {
+                Console.WriteLine($"{n} crossingover:");
+                GenerationKeeper utility = new GenerationKeeper();
+
+                foreach (var element in utility.Crossingover(mother, father))
+                {
+                    Console.WriteLine(element);
+                }
+                Console.WriteLine("\n");
+            }
+            
+
+
+            
 
         }
     }
 }
-
 
