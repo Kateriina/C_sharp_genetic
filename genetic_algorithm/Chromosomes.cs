@@ -5,36 +5,52 @@ namespace genetic_algorithm
 {
     public class Chromosomes
     {
-        private static Random _rnd = new Random();  // dlya randomnogo vibora bita
-
-        public List<int> X { get; set; }       
-
-        public Chromosomes(int x)
+        private static Random _rnd;  // dlya randomnogo vibora bita
+        static Chromosomes()
         {
-            X = new List<int>();
+            _rnd = new Random();
+        }
+        private int size = 8;
 
-            int size = 8;
-            string s = Convert.ToString(x, 2);
-            int length = s.Length;
+        public List<int> X { get; set; }
 
-            if (length < size)
-            { 
-                for (int i = 0; i < (size - length); i++)
-                {
-                    X.Add(0);
-                }
-            }
+        /* public Chromosomes(int x)
+         {
+             X = new List<int>();
 
-            for (int i = 0; i < length; i++)
+             int size = 8;
+             string s = Convert.ToString(x, 2);
+             int length = s.Length;
+
+             if (length < size)
+             { 
+                 for (int i = 0; i < (size - length); i++)
+                 {
+                     X.Add(0);
+                 }
+             }
+
+             for (int i = 0; i < length; i++)
+             {
+                 X.Add(Convert.ToInt32(s[i].ToString()));
+             }
+         }
+
+             */
+        public void CreateChromosome()
+        {
+            for (int n = 0; n < size; n++)
             {
-                X.Add(Convert.ToInt32(s[i].ToString()));
+                X.Add(_rnd.Next(2));
             }
         }
 
         public Chromosomes()
         {
             X = new List<int>();
+            CreateChromosome();
         }
+     
 
         public Chromosomes(List<int> list)
         {
