@@ -21,50 +21,56 @@ namespace genetic_algorithm
      
     }*/
 
+
+    public class MinimumComparer : IComparer<Organism>
+    {
+        private Func<double, double> function;
+
+        public MinimumComparer(Func<double, double> function)
+        {
+            this.function = function;
+        }
+
+        public static IComparer<Organism> Create(Func<double, double> function)
+        {
+            return new MinimumComparer(function);
+        }
+
+        public int Compare(Organism x, Organism y)
+        {
+            var value1 = function(x.Value);
+            var value2 = function(y.Value);
+            return value1 > value2 ? 1 : value2 > value1 ? -1 : 0;
+        }
+    }
+
     class Program
     {
+
         static void Main(string[] args)
         {
-            //Console.WriteLine(cv.binary("101010")); //trenirovka perevoda iz sistemi v sistemu schisleniya
+            Console.WriteLine($"ArgMin((x + 1)^2) = {FindMinimum((x) => (x + 1) * (x + 1))}");
 
-            //create new chromosomes
-            Chromosomes mother = new Chromosomes();
-            Chromosomes father = new Chromosomes();
+            Console.WriteLine($"ArgMin((x - 1)^2) = {FindMinimum((x) => (x - 1) * (x - 1))}");
 
-            Console.WriteLine("create new chromosomes: ");
-            //mother.CreateChromosomes();
-            //father.CreateChromosomes();
+            Console.WriteLine($"ArgMin(x^2) = {FindMinimum((x) => x * x)}");
+        }
 
-            Console.WriteLine($"mother: {mother}");
-            Console.WriteLine($"father: {father}");
-            Console.WriteLine("\n");
 
-            // Console.WriteLine(mother.ToString());   //proverka, kak rabotaet zapis v spisok
+        static double FindMinimum(Func<double, double> func) {
+            var comparer = new MinimumComparer(func);
+            GenerationKeeper keeper = new GenerationKeeper();
 
-            //  Console.WriteLine(mother.Value);    //vivod desyatichnogo chisla
+            keeper.CreateNewPopulation(2);
+            Console.WriteLine(keeper);
 
-            //mutaciya genov
-            for (int n = 0; n <= 1; n++)
+            for (var n = 0; n <= 100; n++)
             {
-                mother.Mutation();
-                Console.WriteLine($"{n} mutation mother:{mother}\n");
-
-                father.Mutation();
-                Console.WriteLine($"{n} mutation father:{father}\n");
+                keeper.Generation();
+                keeper.Selection(comparer);
             }
 
-            //skreschivanie
-            for (int n = 0; n < 1; n++)
-            {
-                Console.WriteLine($"{n} crossingover:");
-                GenerationKeeper utility = new GenerationKeeper();
-
-                foreach (var element in utility.Crossingover(mother, father))
-                {
-                    Console.WriteLine(element);
-                }
-                Console.WriteLine("\n");
-            }
+            return keeper.population[0].Value;
         }
     }
 }
