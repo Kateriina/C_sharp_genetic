@@ -17,8 +17,6 @@ namespace genetic_algorithm
 
             return c;
         }
-
-     
     }*/
 
 
