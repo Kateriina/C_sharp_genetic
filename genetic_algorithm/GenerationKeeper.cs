@@ -11,36 +11,73 @@ namespace genetic_algorithm
         private static Random _rnd = new Random();
 
         //vozvrashaet potomkov list
-        public List<Chromosomes> Crossingover(Chromosomes x, Chromosomes y)
+        public List<Organism> Crossingover(Organism x, Organism y)
         {
-            //mutaciya hromosom x and y
-            x.Mutation();
-            y.Mutation();
-
             //dlya randomnoj tochki razriva
-            int a = _rnd.Next(1, 7);
-            int b = size - a;
+            int a = _rnd.Next(1, Organism.size - 1);
+            int b = Organism.size - a;
 
 
             //ya hochu vernut dve hromosomi - odna hrom x0y1, vtoraya y0x1
 
-            Chromosomes x0y1 = new Chromosomes(x.X.GetRange(0, a).Concat(y.X.GetRange(a, b)).ToList());
+            Organism x0y1 = new Organism(x.chromosome.GetRange(0, a).Concat(y.chromosome.GetRange(a, b)).ToList());
 
-            Chromosomes y0x1 = new Chromosomes(y.X.GetRange(0, a).Concat(x.X.GetRange(a, b)).ToList());
+            Organism y0x1 = new Organism(y.chromosome.GetRange(0, a).Concat(x.chromosome.GetRange(a, b)).ToList());
 
-            return new List<Chromosomes>(){ x0y1, y0x1};
+            return new List<Organism>(){ x0y1, y0x1};
         }
 
         //mne nuzhno sdelat' populyaciyu
-        public List<int> Population { get; set; }
-        public void CreateNewPopulation()
+
+        
+        public List<Organism> population { get; private set; }
+
+        public void CreateNewPopulation(int initial_count)
         {
-            Population = new List<int>();
+            population = new List<Organism>();
+            for (int n = 0; n < initial_count; n++)
+            {
+                population.Add(new Organism());
+            }
+        }
+        
+        public void Generation()
+        {
+            var copy = population.ToArray<Organism>();
 
-            Chromosomes chrom = new Chromosomes();
-            Population.Add(chrom);
-
+            for (int parent1_index = 0; parent1_index < copy.Length - 1; parent1_index++)
+            {
+                for (int parent2_index = parent1_index + 1 ; parent2_index < copy.Length; parent2_index++)
+                {
+                    var childs = Crossingover(copy[parent1_index], copy[parent2_index]);
+                    
+                    foreach (var child in childs)
+                    {
+                        child.Mutate();
+                        population.Add(child);
+                    }
+                    
+                }
+            }
+            
         }
 
+        public void Selection(IComparer<Organism> comparer)
+        {
+            population.Sort(comparer);
+
+            population = population.GetRange(0, population.Count / 2);
+        }
+
+        public override string ToString()
+        {
+            var ret = "";
+            foreach(var organism in population)
+            {
+                ret += $"{organism} ";
+            }
+
+            return ret;
+        }
     }
 }
