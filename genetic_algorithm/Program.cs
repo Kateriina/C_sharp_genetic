@@ -27,9 +27,13 @@ namespace genetic_algorithm
         {
             //Console.WriteLine(cv.binary("101010")); //trenirovka perevoda iz sistemi v sistemu schisleniya
 
-            Chromosomes mother = new Chromosomes(10);
+            //create new chromosomes
+            Chromosomes mother = new Chromosomes();
+            Chromosomes father = new Chromosomes();
 
-            Chromosomes father = new Chromosomes(200);
+            Console.WriteLine("create new chromosomes: ");
+            //mother.CreateChromosomes();
+            //father.CreateChromosomes();
 
             Console.WriteLine($"mother: {mother}");
             Console.WriteLine($"father: {father}");
@@ -40,7 +44,6 @@ namespace genetic_algorithm
             //  Console.WriteLine(mother.Value);    //vivod desyatichnogo chisla
 
             //mutaciya genov
-
             for (int n = 0; n <= 1; n++)
             {
                 mother.Mutation();
@@ -50,6 +53,7 @@ namespace genetic_algorithm
                 Console.WriteLine($"{n} mutation father:{father}\n");
             }
 
+            //skreschivanie
             for (int n = 0; n < 1; n++)
             {
                 Console.WriteLine($"{n} crossingover:");
@@ -61,11 +65,6 @@ namespace genetic_algorithm
                 }
                 Console.WriteLine("\n");
             }
-            
-
-
-            
-
         }
     }
 }
