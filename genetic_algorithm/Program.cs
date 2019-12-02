@@ -59,13 +59,15 @@ namespace genetic_algorithm
             var comparer = new MinimumComparer(func);
             GenerationKeeper keeper = new GenerationKeeper();
 
-            keeper.CreateNewPopulation(2);
-            Console.WriteLine(keeper);
+            keeper.CreateNewPopulation(100);
+            //Console.WriteLine(keeper);
 
-            for (var n = 0; n <= 100; n++)
+            for (var n = 0; n < 20; n++)
             {
                 keeper.Generation();
                 keeper.Selection(comparer);
+                //Console.WriteLine(keeper);
+                Console.WriteLine($"[{n}]: {keeper.population[0].Value} ({keeper.population.Count})");
             }
 
             return keeper.population[0].Value;
