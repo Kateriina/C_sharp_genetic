@@ -9,6 +9,7 @@ namespace genetic_algorithm
     public class GenerationKeeper
     {
         private static Random _rnd = new Random();
+        private int initial_count;
 
         //vozvrashaet potomkov list
         public List<Organism> Crossingover(Organism x, Organism y)
@@ -34,6 +35,8 @@ namespace genetic_algorithm
 
         public void CreateNewPopulation(int initial_count)
         {
+            this.initial_count = initial_count;
+
             population = new List<Organism>();
             for (int n = 0; n < initial_count; n++)
             {
@@ -66,7 +69,7 @@ namespace genetic_algorithm
         {
             population.Sort(comparer);
 
-            population = population.GetRange(0, population.Count / 2);
+            population = population.GetRange(0, initial_count);
         }
 
         public override string ToString()
