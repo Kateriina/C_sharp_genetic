@@ -6,7 +6,7 @@ namespace genetic_algorithm
     public class Organism
     {
         private static Random _rnd = new Random();  // dlya randomnogo vibora bita
-        public const int size = 9;
+        public const int size = 33;
 
         public Organism()
         {
