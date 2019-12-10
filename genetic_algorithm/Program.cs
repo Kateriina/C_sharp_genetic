@@ -52,14 +52,23 @@ namespace genetic_algorithm
             Console.WriteLine($"ArgMin((x - 1)^2) = {FindMinimum((x) => (x - 1) * (x - 1))}");
 
             Console.WriteLine($"ArgMin(x^2) = {FindMinimum((x) => x * x)}");
+
+            Console.WriteLine($"ArgMax(4-(x-2)^2) = {FindMaximum((x) => 4-(x - 2) * (x - 2))}");
+
+            Console.WriteLine($"ArgMax(-(x^4)) = {FindMaximum((x) => -(x * x * x * x))}");
         }
 
+
+        static double FindMaximum(Func<double, double> func)
+        {
+            return -FindMinimum((_2) => -func(_2));
+        }
 
         static double FindMinimum(Func<double, double> func) {
             var comparer = new MinimumComparer(func);
             GenerationKeeper keeper = new GenerationKeeper();
 
-            keeper.CreateNewPopulation(100);
+            keeper.CreateNewPopulation(10);
             //Console.WriteLine(keeper);
 
             for (var n = 0; n < 20; n++)
